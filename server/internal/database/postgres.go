@@ -36,8 +36,17 @@ func NewPostgres(cfg *config.Config) (*gorm.DB, error) {
 	sqlDB.SetMaxIdleConns(10)
 	sqlDB.SetMaxOpenConns(100)
 	sqlDB.SetConnMaxLifetime(time.Hour)
-
 	log.Println("PostgreSQL connected successfully")
+
+	// err = db.AutoMigrate(
+	// 	&domain.User{},
+	// 	&domain.Column{},
+	// 	&domain.Task{},
+	// )
+	// if err != nil {
+	// 	log.Fatal("Failed run migration:", err)
+	// }
+	// log.Println("Successfull run migration")
 
 	return db, nil
 }
