@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/dendik-creation/task-control/internal/config"
+	"github.com/dendik-creation/task-control/internal/domain"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -38,15 +39,15 @@ func NewPostgres(cfg *config.Config) (*gorm.DB, error) {
 	sqlDB.SetConnMaxLifetime(time.Hour)
 	log.Println("PostgreSQL connected successfully")
 
-	// err = db.AutoMigrate(
-	// 	&domain.User{},
-	// 	&domain.Column{},
-	// 	&domain.Task{},
-	// )
-	// if err != nil {
-	// 	log.Fatal("Failed run migration:", err)
-	// }
-	// log.Println("Successfull run migration")
+	err = db.AutoMigrate(
+		&domain.User{},
+		&domain.Column{},
+		&domain.Task{},
+	)
+	if err != nil {
+		log.Fatal("Failed run migration:", err)
+	}
+	log.Println("Successfull run migration")
 
 	return db, nil
 }

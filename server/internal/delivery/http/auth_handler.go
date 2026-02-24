@@ -26,7 +26,6 @@ func NewAuthHandler(r *gin.Engine, us domain.UserUsecase) {
 
 func (h *AuthHandler) Register(c *gin.Context) {
 	var user domain.User
-	log.Printf("Received registration request: %v", c.Request.Body)
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid format input"})
 		log.Printf("Error binding JSON: %v", err)
@@ -46,6 +45,7 @@ func (h *AuthHandler) Register(c *gin.Context) {
 }
 
 func (h *AuthHandler) Login(c *gin.Context) {
+	log.Printf("Received body request: %v", c.Request.Body)
 	var loginData struct {
 		Email    string `json:"email" binding:"required"`
 		Password string `json:"password" binding:"required"`

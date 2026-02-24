@@ -41,7 +41,7 @@ func (u *authUsecase) Register(user *domain.User) error {
 	}
 
 	for _, col := range defaultColumns {
-		_ = u.columnRepo.Create(&col)
+		u.columnRepo.Create(&col)
 	}
 
 	return nil
@@ -50,12 +50,12 @@ func (u *authUsecase) Register(user *domain.User) error {
 func (u *authUsecase) Login(email string, password string) (string, error) {
 	user, err := u.userRepo.GetByEmail(email)
 	if err != nil {
-		return "", errors.New("Invalid credentials")
+		return "", errors.New("Email or password is incorrect")
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if err != nil {
-		return "", errors.New("Invalid credentials")
+		return "", errors.New("Email or password is incorrect")
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{

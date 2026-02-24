@@ -4,7 +4,8 @@ import "time"
 
 type User struct {
 	ID       uint   `json:"id" gorm:"primaryKey"`
-	Email    string `json:"email" gorm:"unique;not null"`
+	Name     string `json:"name" gorm:"not null" binding:"required"`
+	Email    string `json:"email" gorm:"unique;not null" binding:"required,email"`
 	Password string `json:"-" gorm:"not null"`
 
 	Columns []Column `json:"columns" gorm:"foreignKey:UserID"`
